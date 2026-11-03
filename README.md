@@ -11,7 +11,7 @@ No backend, no build step, no dependencies beyond two Google Fonts — it's one
   product surface (not placeholder copy).
 - A real, working `⌘K` command palette (press it anywhere on the page) that
   jumps to any section, toggles light/dark theme, or opens the demo-request form.
-- A "Solicitar una demo" modal that composes a `mailto:` to `ventas@arshem.ai`
+- A "Solicitar una demo" modal that composes a `mailto:` to `arshem.tech@gmail.com`
   with the visitor's name/email/firm/interest — there's no form backend yet,
   so this is the delivery mechanism until one exists (see below).
 - Full light/dark theming (follows system preference, with a manual toggle),

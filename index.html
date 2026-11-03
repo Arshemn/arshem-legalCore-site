@@ -786,7 +786,7 @@
         <textarea name="message" rows="3" placeholder="Revisión IA, bóveda cifrada, entorno aislado, auditoría…"></textarea>
       </label>
       <button class="btn btn-primary" type="submit">Enviar solicitud</button>
-      <p class="form-note">Sin backend propio todavía: esto abre tu cliente de correo con la solicitud lista para enviar a ventas@arshem.ai.</p>
+      <p class="form-note">Sin backend propio todavía: esto abre tu cliente de correo con la solicitud lista para enviar a arshem.tech@gmail.com.</p>
     </form>
     <div class="demo-success" id="demoSuccess" hidden>
       <p>Tu cliente de correo se abrió con la solicitud. Normalmente respondemos en menos de 24 horas.</p>
@@ -1149,7 +1149,7 @@
     if (message) bodyLines.push("Interés: " + message);
 
     var subject = "Solicitud de demo — " + (company || name);
-    var mailto = "mailto:ventas@arshem.ai?subject=" + encodeURIComponent(subject)
+    var mailto = "mailto:arshem.tech@gmail.com?subject=" + encodeURIComponent(subject)
       + "&body=" + encodeURIComponent(bodyLines.join("\n"));
 
     // An <a> click (rather than location.href =) opens the mail client as
