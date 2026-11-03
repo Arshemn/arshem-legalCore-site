@@ -11,9 +11,13 @@ No backend, no build step, no dependencies beyond two Google Fonts — it's one
   product surface (not placeholder copy).
 - A real, working `⌘K` command palette (press it anywhere on the page) that
   jumps to any section, toggles light/dark theme, or opens the demo-request form.
-- A "Solicitar una demo" modal that composes a `mailto:` to `arshem.tech@gmail.com`
-  with the visitor's name/email/firm/interest — there's no form backend yet,
-  so this is the delivery mechanism until one exists (see below).
+- A "Solicitar una demo" modal wired to **Netlify Forms** (name/email/firm/
+  interest, plus a honeypot field for spam). Submitting it only works as a
+  real form once this site is actually deployed on Netlify — see below. On
+  every other host (including this file previewed locally or via an
+  Artifact) it falls back automatically to opening a `mailto:` to
+  `arshem.tech@gmail.com` with the same details pre-filled, so the form
+  never silently fails.
 - Full light/dark theming (follows system preference, with a manual toggle),
   responsive layout, and `prefers-reduced-motion` support throughout.
 
@@ -47,10 +51,18 @@ at this repo):
 All four give you free hosting, a CDN, and automatic HTTPS, and redeploy
 automatically on every push to `main`.
 
+**If you deploy to Netlify**, the demo-request form works out of the box —
+no extra setup. Netlify detects the `data-netlify="true"` form in the static
+HTML at deploy time and starts collecting submissions under **Forms** in the
+site dashboard, where you can also turn on an email notification per
+submission. On any other host, the form still works, just via the `mailto:`
+fallback described above.
+
 ## Updating the lead-capture flow
 
-The demo-request form currently sends through the visitor's own email client
-via a `mailto:` link (see the `demoForm` submit handler in `index.html`).
-Once there's a real form backend (e.g. Formspree, Getform, or the product's
-own API), swap that handler to a `fetch()` POST instead — the form fields
-and validation don't need to change.
+`demoForm`'s submit handler (in `index.html`) tries a Netlify Forms POST
+first and falls back to `mailto:` if that fails — see the comments around
+`isArtifactPreview` and `sendViaMailtoFallback`. If you move off Netlify
+and want a different backend (Formspree, Getform, the product's own API),
+replace the `fetch("/", ...)` call with that provider's endpoint; the form
+fields and validation don't need to change.

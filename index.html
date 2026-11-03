@@ -451,6 +451,7 @@
   .modal-close:hover{ border-color: var(--brass); color: var(--brass); }
 
   .demo-form{ display: flex; flex-direction: column; gap: var(--sp-4); }
+  .demo-form[hidden]{ display: none; }
   .demo-form label{
     display: flex; flex-direction: column; gap: 0.4rem;
     font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em;
@@ -772,7 +773,9 @@
       <h3>Solicitar una demo</h3>
       <button class="modal-close" id="demoClose" type="button" aria-label="Cerrar">✕</button>
     </div>
-    <form id="demoForm" class="demo-form">
+    <form id="demoForm" class="demo-form" name="demo-request" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
+      <input type="hidden" name="form-name" value="demo-request">
+      <p hidden><label>No llenar este campo: <input name="bot-field"></label></p>
       <label>Nombre completo
         <input type="text" name="name" required autocomplete="name">
       </label>
@@ -786,10 +789,10 @@
         <textarea name="message" rows="3" placeholder="Revisión IA, bóveda cifrada, entorno aislado, auditoría…"></textarea>
       </label>
       <button class="btn btn-primary" type="submit">Enviar solicitud</button>
-      <p class="form-note">Sin backend propio todavía: esto abre tu cliente de correo con la solicitud lista para enviar a arshem.tech@gmail.com.</p>
+      <p class="form-note">Enviado por Netlify Forms. Si este sitio aún no vive en Netlify, se abre tu cliente de correo en su lugar.</p>
     </form>
     <div class="demo-success" id="demoSuccess" hidden>
-      <p>Tu cliente de correo se abrió con la solicitud. Normalmente respondemos en menos de 24 horas.</p>
+      <p id="demoSuccessText"></p>
       <button class="btn btn-ghost" type="button" id="demoSuccessClose">Cerrar</button>
     </div>
   </div>
@@ -1111,6 +1114,7 @@
   var demoOverlay = document.getElementById("demoOverlay");
   var demoForm = document.getElementById("demoForm");
   var demoSuccess = document.getElementById("demoSuccess");
+  var demoSuccessText = document.getElementById("demoSuccessText");
   var demoLastFocused = null;
 
   function openDemoModal(){
@@ -1136,9 +1140,21 @@
     if (e.key === "Escape" && demoOverlay.classList.contains("open")) closeDemoModal();
   });
 
-  demoForm.addEventListener("submit", function(e){
-    e.preventDefault();
-    var data = new FormData(demoForm);
+  function encodeFormData(formData){
+    var params = [];
+    formData.forEach(function(value, key){ params.push(encodeURIComponent(key) + "=" + encodeURIComponent(value)); });
+    return params.join("&");
+  }
+
+  function showDemoSuccess(viaNetlify){
+    demoSuccessText.textContent = viaNetlify
+      ? "Solicitud enviada. Normalmente respondemos en menos de 24 horas."
+      : "Tu cliente de correo se abrió con la solicitud. Normalmente respondemos en menos de 24 horas.";
+    demoForm.hidden = true;
+    demoSuccess.hidden = false;
+  }
+
+  function sendViaMailtoFallback(data){
     var name = (data.get("name") || "").trim();
     var email = (data.get("email") || "").trim();
     var company = (data.get("company") || "").trim();
@@ -1152,15 +1168,53 @@
     var mailto = "mailto:arshem.tech@gmail.com?subject=" + encodeURIComponent(subject)
       + "&body=" + encodeURIComponent(bodyLines.join("\n"));
 
-    // An <a> click (rather than location.href =) opens the mail client as
-    // an external protocol handler without risking navigating this tab
-    // itself away to a blank mailto: "page" when no mail client is registered.
+    // target="_blank" on the click (not window.open(), which risks being
+    // treated as a popup once this runs inside an async fetch callback)
+    // keeps this tab from ever navigating. Confirmed — not just
+    // theoretical — that a same-target <a> click still replaces THIS tab
+    // with a dead mailto: "page" whenever no mail client is registered to
+    // intercept it, stranding the visitor off the site entirely; a
+    // separate target sends that dead page somewhere disposable instead.
     var link = document.createElement("a");
     link.href = mailto;
+    link.target = "_blank";
+    link.rel = "noopener";
     link.click();
+  }
 
-    demoForm.hidden = true;
-    demoSuccess.hidden = false;
+  // Netlify Forms only exists once this site is actually deployed on
+  // Netlify — it statically parses the HTML for data-netlify forms at
+  // deploy time and serves a handler at "/" for them. A hosting platform
+  // that serves this same HTML but ignores HTTP method on unknown routes
+  // (observed on the claude.ai Artifact preview, which this page is also
+  // viewed through) could return 200 for that POST without it meaning
+  // anything — showing a false "sent" message and silently losing the
+  // lead. Only attempt the Netlify path on a host that isn't that preview;
+  // every other host (the real deploy, or any other static host) still
+  // falls back to mailto automatically via the fetch failing below.
+  var isArtifactPreview = /\bclaude\.ai$/.test(location.hostname);
+
+  demoForm.addEventListener("submit", function(e){
+    e.preventDefault();
+    var data = new FormData(demoForm);
+
+    if (isArtifactPreview){
+      sendViaMailtoFallback(data);
+      showDemoSuccess(false);
+      return;
+    }
+
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: encodeFormData(data)
+    }).then(function(res){
+      if (res.ok) showDemoSuccess(true);
+      else { sendViaMailtoFallback(data); showDemoSuccess(false); }
+    }).catch(function(){
+      sendViaMailtoFallback(data);
+      showDemoSuccess(false);
+    });
   });
 })();
 </script>
