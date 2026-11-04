@@ -399,6 +399,38 @@
   .tile h3{ font-family: var(--font-body); font-weight: 600; font-size: 0.9375rem; }
   .tile p{ margin: 0; font-size: 0.85rem; color: var(--ink-muted); line-height: 1.5; }
 
+  /* ---------- compare ---------- */
+  .compare{ padding-block: var(--sp-9); border-bottom: 1px solid var(--line); }
+  .compare-head{ max-width: 56ch; }
+  .compare-head h2{ font-size: clamp(1.9rem, 3.4vw, 2.6rem); }
+  .compare-table{
+    margin-top: var(--sp-7); border: 1px solid var(--line); border-radius: 14px;
+    overflow: hidden; background: var(--bg-raised);
+  }
+  .compare-row{
+    display: grid; grid-template-columns: 1.3fr 1fr 1fr;
+    border-bottom: 1px solid var(--line);
+  }
+  .compare-row:last-child{ border-bottom: none; }
+  .compare-row > div{ padding: 0.9rem 1.1rem; font-size: 0.9375rem; }
+  .compare-row.compare-cols{
+    font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.04em;
+    text-transform: uppercase; color: var(--ink-faint); background: var(--bg);
+  }
+  .compare-row.compare-cols > div{ padding: 0.75rem 1.1rem; }
+  .compare-row > div:first-child{ color: var(--ink); font-weight: 500; }
+  .compare-row > div:nth-child(2){ color: var(--ink-faint); border-left: 1px solid var(--line); }
+  .compare-row > div:nth-child(3){
+    color: var(--ink); border-left: 1px solid var(--line);
+    background: color-mix(in srgb, var(--teal) 7%, transparent);
+  }
+  .compare-check{ color: var(--teal); margin-right: 0.4rem; }
+  @media (max-width: 720px){
+    .compare-row{ grid-template-columns: 1fr; }
+    .compare-row > div:nth-child(2), .compare-row > div:nth-child(3){ border-left: none; border-top: 1px solid var(--line); }
+    .compare-row.compare-cols{ display: none; }
+  }
+
   /* ---------- faq (native <details>, no JS needed) ---------- */
   .faq-list{ margin-top: var(--sp-7); max-width: 72ch; }
   .faq-item{ border-bottom: 1px solid var(--line); }
@@ -774,6 +806,46 @@
     </div>
   </section>
 
+  <section class="compare" id="comparacion">
+    <div class="wrap">
+      <div class="compare-head reveal">
+        <h2>No es un conector. Es el sistema completo.</h2>
+      </div>
+      <div class="compare-table reveal">
+        <div class="compare-row compare-cols">
+          <div></div>
+          <div>IA conectada a otras herramientas</div>
+          <div>Arshem LegalCore</div>
+        </div>
+        <div class="compare-row">
+          <div>Bóveda documental cifrada</div>
+          <div>Una plataforma aparte</div>
+          <div><span class="compare-check">✓</span>Incluida, cifrada por sobre</div>
+        </div>
+        <div class="compare-row">
+          <div>Casos (matters) y permisos</div>
+          <div>Una plataforma aparte</div>
+          <div><span class="compare-check">✓</span>Incluidos, con permisos explícitos</div>
+        </div>
+        <div class="compare-row">
+          <div>Registro de auditoría</div>
+          <div>No nativo</div>
+          <div><span class="compare-check">✓</span>Append-only, de fábrica</div>
+        </div>
+        <div class="compare-row">
+          <div>Carga de archivos</div>
+          <div>Sin aislamiento propio</div>
+          <div><span class="compare-check">✓</span>Entorno sin acceso a red</div>
+        </div>
+        <div class="compare-row">
+          <div>Sugerencias de la IA</div>
+          <div>En una ventana de chat aparte</div>
+          <div><span class="compare-check">✓</span>Directo en el documento</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="article" id="preguntas">
     <div class="wrap">
       <div class="indice-head reveal">
@@ -873,6 +945,7 @@
       <li><a href="#boveda">Bóveda</a></li>
       <li><a href="#aislado">Entorno aislado</a></li>
       <li><a href="#indice">Índice</a></li>
+      <li><a href="#comparacion">Comparativa</a></li>
       <li><a href="#preguntas">Preguntas</a></li>
     </ul>
     <span class="fine">© 2026 Arshem.</span>
@@ -1087,6 +1160,7 @@
     { label: "Ir a Entorno aislado (Art. 03)", kbd: "", run: function(){ scrollToId("aislado"); } },
     { label: "Ir a Auditoría y gobierno (Art. 04)", kbd: "", run: function(){ scrollToId("auditoria"); } },
     { label: "Ver el índice completo del producto", kbd: "", run: function(){ scrollToId("indice"); } },
+    { label: "Ver comparativa", kbd: "", run: function(){ scrollToId("comparacion"); } },
     { label: "Ver preguntas frecuentes", kbd: "", run: function(){ scrollToId("preguntas"); } },
     { label: "Cambiar a tema oscuro / claro", kbd: "", run: toggleTheme },
     { label: "Agendar una demo", kbd: "↵", run: function(){ openDemoModal(); } }
