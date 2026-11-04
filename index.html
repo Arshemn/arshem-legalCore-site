@@ -240,6 +240,7 @@
   .ai-badge.active{ opacity: 1; }
   .ai-badge .blip{ width: 0.4rem; height: 0.4rem; border-radius: 50%; background: var(--teal); animation: blip 1s infinite ease-in-out; }
   @keyframes blip{ 0%,100%{ opacity: 0.3; } 50%{ opacity: 1; } }
+  @media (prefers-reduced-motion: reduce){ .ai-badge .blip{ animation: none; opacity: 1; } }
 
   .doc-body{ padding: 1.5rem 1.35rem 1.75rem; font-size: 0.95rem; }
   .doc-body .clause-no{ font-family: var(--font-mono); font-size: 0.7rem; color: var(--ink-faint); letter-spacing: 0.08em; display: block; margin-bottom: 0.6rem; }
@@ -259,6 +260,16 @@
     to{ background: color-mix(in srgb, var(--brass) 14%, transparent); }
   }
   @media (prefers-reduced-motion: reduce){ .ins-txt.show{ animation: none; } }
+
+  /* ---------- product showcase (real screenshot) ---------- */
+  .showcase{ padding-block: var(--sp-7) var(--sp-8); }
+  .showcase-head{ max-width: 56ch; margin-bottom: var(--sp-6); }
+  .showcase-head h2{ font-size: clamp(1.7rem, 3vw, 2.2rem); margin-top: var(--sp-3); }
+  .showcase-head p{ color: var(--ink-muted); margin-top: var(--sp-3); }
+  .shot-frame{ margin: 0; background: var(--bg-raised); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); overflow: hidden; }
+  .shot-frame .doc-head{ background: var(--bg-raised); }
+  .shot-frame img{ width: 100%; height: auto; display: block; background: var(--bg-raised); }
+  .shot-caption{ margin: var(--sp-3) 0 0; font-size: 0.8125rem; color: var(--ink-faint); text-align: center; }
 
   /* ---------- facts strip ---------- */
   .facts{ border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
@@ -570,6 +581,32 @@
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section class="showcase">
+    <div class="wrap">
+      <div class="showcase-head reveal">
+        <span class="eyebrow">Captura real · no es una maqueta</span>
+        <h2>Así se ve, tal cual, dentro de la aplicación.</h2>
+        <p>El editor real de Arshem LegalCore: una cláusula en revisión, con el panel de IA
+          a la derecha esperando una instrucción — exactamente lo que vería tu equipo.</p>
+      </div>
+      <figure class="shot-frame reveal tilt">
+        <div class="doc-head">
+          <span>📄 <span class="fname">Acuerdo_Confidencialidad_v3</span></span>
+          <span class="ai-badge active"><span class="blip"></span>Editor en vivo</span>
+        </div>
+        <picture>
+          <source srcset="assets/product-screenshot.webp" type="image/webp">
+          <img
+            src="assets/product-screenshot.jpg"
+            width="1568" height="677"
+            alt="Captura de pantalla del editor de documentos de Arshem LegalCore. Muestra el documento «Acuerdo_Confidencialidad_v3» con la Cláusula 4.2 de confidencialidad redactada, una barra de herramientas de formato completa (negrita, cursiva, títulos, listas, cita, código, enlaces, imágenes y tablas) y, a la derecha, el panel de Chat IA con acciones sugeridas: Completar, Generar borrador, Buscar vacíos e Información."
+            loading="eager" decoding="async">
+        </picture>
+      </figure>
+      <p class="shot-caption">Sin datos de ningún cliente — documento de muestra creado en la aplicación real.</p>
     </div>
   </section>
 

@@ -1,11 +1,18 @@
 # Arshem LegalCore — sales site
 
 A single-page, self-contained sales/marketing landing page for Arshem LegalCore.
-No backend, no build step, no dependencies beyond two Google Fonts — it's one
-`index.html` with inline CSS and JS.
+No backend, no build step, no dependencies beyond two Google Fonts — `index.html`
+has all the CSS and JS inline; `assets/` holds the one real product screenshot
+referenced from it (see below).
 
 ## What's on the page
 
+- A real screenshot of the actual product (`assets/product-screenshot.{jpg,webp}`)
+  framed right under the hero, captioned "Captura real · no es una maqueta" —
+  not a mockup, an actual editor session (document name, clause text, toolbar,
+  AI panel) captured from the running app. WebP with a JPEG fallback via
+  `<picture>`, explicit `width`/`height` to avoid layout shift, loaded eagerly
+  since it's above the fold.
 - A live-animated AI redline demo, a network-isolated upload sandbox flow,
   and an auto-scrolling audit-log ticker, all grounded in Arshem's actual
   product surface (not placeholder copy).
