@@ -1,4 +1,10 @@
-<title>Arshem LegalCore</title>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arshem LegalCore — Bóveda cifrada, revisión con IA y auditoría para equipos legales</title>
+<meta name="description" content="Arshem LegalCore cifra tu bóveda documental, redacta y revisa contratos con IA supervisada, y registra cada acción en un libro de auditoría que no se puede alterar. Para equipos legales internos y firmas.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340..700;1,9..144,400..600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -382,6 +388,24 @@
   .tile h3{ font-family: var(--font-body); font-weight: 600; font-size: 0.9375rem; }
   .tile p{ margin: 0; font-size: 0.85rem; color: var(--ink-muted); line-height: 1.5; }
 
+  /* ---------- faq (native <details>, no JS needed) ---------- */
+  .faq-list{ margin-top: var(--sp-7); max-width: 72ch; }
+  .faq-item{ border-bottom: 1px solid var(--line); }
+  .faq-item:first-child{ border-top: 1px solid var(--line); }
+  .faq-item summary{
+    list-style: none; cursor: pointer; padding: 1.25rem 2.25rem 1.25rem 0; position: relative;
+    font-family: var(--font-display); font-weight: 560; font-size: 1.0625rem; color: var(--ink);
+  }
+  .faq-item summary::-webkit-details-marker{ display: none; }
+  .faq-item summary::after{
+    content: "+"; position: absolute; right: 0; top: 1.2rem; font-family: var(--font-mono);
+    font-size: 1.1rem; color: var(--ink-faint); transition: transform 0.2s ease, color 0.2s ease;
+  }
+  .faq-item[open] summary::after{ content: "−"; color: var(--brass); }
+  .faq-item summary:hover::after{ color: var(--brass); }
+  .faq-item summary:focus-visible{ outline: 2px solid var(--teal); outline-offset: 3px; border-radius: 2px; }
+  .faq-item .faq-a{ margin: 0 0 1.4rem; padding-right: 2.25rem; color: var(--ink-muted); font-size: 0.9375rem; line-height: 1.65; max-width: 62ch; }
+
   /* ---------- signature / cta ---------- */
   .signature{ padding-block: var(--sp-9); text-align: center; position: relative; }
   .signature h2{ font-size: clamp(2.1rem, 4.4vw, 3.4rem); max-width: 18ch; margin-inline: auto; line-height: 1.08; }
@@ -476,6 +500,8 @@
     .facts .wrap{ flex-direction: column; gap: var(--sp-3); }
   }
 </style>
+</head>
+<body>
 
 <div id="progress"></div>
 
@@ -488,6 +514,7 @@
       <li><a href="#aislado">Entorno aislado</a></li>
       <li><a href="#auditoria">Auditoría</a></li>
       <li><a href="#indice">Índice</a></li>
+      <li><a href="#preguntas">Preguntas</a></li>
     </ul>
     <div class="navright">
       <button class="seal" id="themeToggle" type="button" aria-label="Cambiar tema" title="Cambiar tema">🔏</button>
@@ -713,6 +740,71 @@
     </div>
   </section>
 
+  <section class="article" id="preguntas">
+    <div class="wrap">
+      <div class="indice-head reveal">
+        <span class="eyebrow">Antes de agendar</span>
+        <h2>Lo que suelen preguntar primero.</h2>
+        <p style="color:var(--ink-muted); margin-top: var(--sp-4);">
+          Si algo importante no está acá, pregúntalo directamente en la demo —
+          preferimos una respuesta concreta a una genérica.
+        </p>
+      </div>
+      <div class="faq-list">
+        <details class="faq-item reveal">
+          <summary>¿Para quién es Arshem LegalCore?</summary>
+          <p class="faq-a">Para equipos legales internos y firmas que gestionan contratos, cumplimiento y riesgo —
+            desde que un documento entra a la bóveda hasta que queda archivado.</p>
+        </details>
+        <details class="faq-item reveal">
+          <summary>¿Cómo sé que la IA no está editando mis documentos sin que yo lo note?</summary>
+          <p class="faq-a">Nunca lo hace en silencio. Cada sugerencia llega como un cambio visible — texto
+            insertado o tachado, el mismo lenguaje de un redline humano — y tu equipo decide aceptarlo,
+            rechazarlo o pedir una redacción distinta. La IA propone; tu equipo aprueba.</p>
+        </details>
+        <details class="faq-item reveal">
+          <summary>¿Cómo protegen la confidencialidad de los documentos que subimos?</summary>
+          <p class="faq-a">Cifrado por sobre: cada documento tiene su propia llave (AES-256), envuelta a su vez
+            por una llave maestra que no se guarda junto a los datos — no una sola llave compartida para
+            toda la organización.</p>
+        </details>
+        <details class="faq-item reveal">
+          <summary>¿Qué pasa si subimos sin querer un archivo con malware?</summary>
+          <p class="faq-a">Todo PDF o Word nuevo entra primero a un entorno de carga sin acceso a red: se
+            escanea en busca de malware, se bloquean las macros, y solo el texto limpio (con OCR si hace
+            falta) sale al otro lado. Un archivo malicioso se rechaza antes de llegar a tu bóveda.</p>
+        </details>
+        <details class="faq-item reveal">
+          <summary>¿Quién dentro de mi organización puede ver cada documento?</summary>
+          <p class="faq-a">Por defecto, quien lo sube y quien tenga acceso al matter (caso) donde está
+            archivado. Compartir un documento puntual requiere un permiso explícito, revocable en un clic —
+            nunca acceso implícito solo por pertenecer a la misma organización.</p>
+        </details>
+        <details class="faq-item reveal">
+          <summary>¿Puedo eliminar un documento — o toda la cuenta — de forma permanente?</summary>
+          <p class="faq-a">Sí. El borrado normal archiva el documento; el borrado permanente lo elimina de
+            forma verificable, y la acción misma queda escrita en el mismo libro de auditoría que nadie
+            puede alterar.</p>
+        </details>
+        <details class="faq-item reveal">
+          <summary>¿Esto reemplaza a mi equipo legal?</summary>
+          <p class="faq-a">No. Arshem redacta sugerencias y encuentra vacíos citando el pasaje exacto del
+            documento — la decisión final, en cada cláusula, la toma tu equipo.</p>
+        </details>
+        <details class="faq-item reveal">
+          <summary>¿Necesitamos instalar algo?</summary>
+          <p class="faq-a">No. Arshem LegalCore funciona desde el navegador; no hay un cliente de escritorio
+            que mantener ni actualizar.</p>
+        </details>
+        <details class="faq-item reveal">
+          <summary>¿Cómo empezamos y cuánto cuesta?</summary>
+          <p class="faq-a">Con una llamada de 20 minutos sobre tu propio caso de uso. Ahí revisamos el plan
+            que tiene sentido para el tamaño de tu equipo y activamos el acceso.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
   <section class="signature">
     <div class="wrap">
       <span class="eyebrow" style="justify-content:center">En fe de lo cual</span>
@@ -747,6 +839,7 @@
       <li><a href="#boveda">Bóveda</a></li>
       <li><a href="#aislado">Entorno aislado</a></li>
       <li><a href="#indice">Índice</a></li>
+      <li><a href="#preguntas">Preguntas</a></li>
     </ul>
     <span class="fine">© 2026 Arshem.</span>
   </div>
@@ -960,6 +1053,7 @@
     { label: "Ir a Entorno aislado (Art. 03)", kbd: "", run: function(){ scrollToId("aislado"); } },
     { label: "Ir a Auditoría y gobierno (Art. 04)", kbd: "", run: function(){ scrollToId("auditoria"); } },
     { label: "Ver el índice completo del producto", kbd: "", run: function(){ scrollToId("indice"); } },
+    { label: "Ver preguntas frecuentes", kbd: "", run: function(){ scrollToId("preguntas"); } },
     { label: "Cambiar a tema oscuro / claro", kbd: "", run: toggleTheme },
     { label: "Agendar una demo", kbd: "↵", run: function(){ openDemoModal(); } }
   ];
@@ -1218,3 +1312,5 @@
   });
 })();
 </script>
+</body>
+</html>

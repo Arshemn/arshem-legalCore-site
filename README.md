@@ -11,6 +11,12 @@ No backend, no build step, no dependencies beyond two Google Fonts — it's one
   product surface (not placeholder copy).
 - A real, working `⌘K` command palette (press it anywhere on the page) that
   jumps to any section, toggles light/dark theme, or opens the demo-request form.
+- A FAQ section (`#preguntas`) answering the objections a legal buyer actually
+  has — audience fit, AI-edit visibility, encryption, the upload sandbox,
+  per-document permissions, verifiable deletion, pricing/onboarding — as a
+  native `<details>` accordion (no JS, fully keyboard- and screen-reader-
+  accessible). Every answer is grounded in what the product actually does;
+  nothing here is a placeholder.
 - A "Solicitar una demo" modal wired to **Netlify Forms** (name/email/firm/
   interest, plus a honeypot field for spam). Submitting it only works as a
   real form once this site is actually deployed on Netlify — see below. On
